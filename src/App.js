@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState,useContext, useEffect} from 'react'
+import background from './assets/img/Quiz-Background.jpg'
+import Screen from './Components/Screen';
+
+const BG = {
+  'width':'100%',
+  'height': "100vh",
+  'backgroundImage': `url(${background})`,
+  "backgroundPosition": " center",
+  "backgroundRepeat": "no-repeat",
+  "backgroundSize": "cover",
+  "margin": "0 auto"
+}
+
+
 
 function App() {
+
+  useEffect(()=>{
+    fetch("https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple")
+    .then(res=>res.json())
+    .then(json=>console.log(json))
+  },[])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div  style={BG}>
+     < Screen/>
     </div>
   );
 }
