@@ -6,19 +6,31 @@ import Tabs from './Tabs';
 
 
 function DisplayArea() {
+  const {setTriviaCollection,triviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setQuestions,tabDisplayBoxVisibility,setTabDisplayBoxVisibility} = useContext(TriviaContext) 
+  let num = Math.floor(Math.random() * 4)
+  const questionArr = []
 
+   useEffect(()=>{
+ 
    
+   
+   //console.log(triviaCollection[0].question)
+ 
+//  setScreen(triviaCollection[0].question)
 
-   const {setTriviaCollection,triviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,questions} = useContext(TriviaContext) 
-   
+//    questionArr.push(...triviaCollection[0].incorrect_answers)
   
-  //  useEffect(()=>{
+//   questionArr.splice(num,0,triviaCollection[0].correct_answer)
+
+//   setQuestions(questionArr)
+//   setActiveQuestion(triviaCollection[0])
+
 
     
 
-  //  },[])
+    },[])
 
-   //console.log(triviaCollection[0])
+   console.log(triviaCollection)
 
 
 //    console.log(activeQuestion.incorrect_answers)
@@ -28,9 +40,14 @@ function DisplayArea() {
     <div className='h-full'>
         <div className='h-full'>
         <Screen/>
-        <div className='grid grid-cols-2 items-center justify-items-center  h-48'>
+        <div  className={
+            tabDisplayBoxVisibility.value === true? 
+             'grid grid-cols-2 items-center justify-items-center  h-48' 
+              : 
+              'hidden'
+              }>
          {
-           questions.map((q,i)=>(<Tabs key={i} id={i} ans={q} />))
+           answers.map((q,i)=>(<Tabs key={i} id={i} ans={q} />))
          }
          </div>
         </div>
