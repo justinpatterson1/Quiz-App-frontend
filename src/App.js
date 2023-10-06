@@ -1,9 +1,19 @@
 import {useState,useContext, useEffect} from 'react'
 import background from './assets/img/Quiz-Background.jpg'
 import Screen from './Components/Screen';
+import LoginPage from './Components/LoginPage';
 import TriviaContext from './Context/TriviaContext';
 import DisplayArea from './Components/DisplayArea';
+import AppLayout from './Components/AppLayout';
 import { assignQuestions,getAnswers ,updateCount} from './utils/QuestionArrange';
+
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import StartPage from './Components/StartPage';
 
 const BG = {
   'width':'100%',
@@ -25,9 +35,25 @@ const [screen,setScreen] = useState();
 const [answers,setAnswers] = useState([]);
 const [correctAnswer,setCorrectAnswer] = useState();
 const [count,setCount] = useState(0)
-const [tabDisplayBoxVisibility,setTabDisplayBoxVisibility] = useState({value:true})
+const [tabDisplayBoxVisibility,setTabDisplayBoxVisibility] = useState({value:true});
+const [login,setLogin] = useState({})
+const [gameSettings,setGameSettings] = useState({
+                                                  difficulty:"",
+                                                  question:"",
+                                                  catergory:""
+                                                })
 
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<AppLayout/>}>
+         <Route indexed path="login" element={<LoginPage/>}/>
+         <Route  path="/" element={<DisplayArea/>}/>
+         <Route path="start" element={<StartPage/>}/>
+
+    </Route>
+  )
+)
 
 // const assignQuestions = (json)=>{
 //   const questionArr = [];
@@ -48,7 +74,7 @@ const [tabDisplayBoxVisibility,setTabDisplayBoxVisibility] = useState({value:tru
    const abortController = new AbortController();
    const signal = abortController.signal
   //  / console.log("hi")
-    fetch("https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple",{
+    fetch(`https://opentdb.com/api.php?amount=${gameSettings.question}&category=${gameSettings.catergory}&difficulty=${gameSettings.difficulty}&type=multiple`,{
       signal :abortController.signal
     })
     .then(res=>res.json())
@@ -128,9 +154,9 @@ const [tabDisplayBoxVisibility,setTabDisplayBoxVisibility] = useState({value:tru
    
 
   return (
-    <TriviaContext.Provider value={{triviaCollection,setTriviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setAnswers,correctAnswer,setCorrectAnswer,count,setCount,tabDisplayBoxVisibility,setTabDisplayBoxVisibility}}>
+    <TriviaContext.Provider value={{triviaCollection,setTriviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setAnswers,correctAnswer,setCorrectAnswer,count,setCount,tabDisplayBoxVisibility,setTabDisplayBoxVisibility,login,setLogin,gameSettings,setGameSettings}}>
     <div  style={BG}>
-      <DisplayArea/>
+      <RouterProvider router={router}/>
 
     </div>
     </TriviaContext.Provider>

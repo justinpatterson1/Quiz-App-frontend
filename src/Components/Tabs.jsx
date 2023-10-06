@@ -1,4 +1,5 @@
 import React, { useContext,useState } from 'react'
+import {Navigate,useNavigate} from 'react-router-dom'
 import {answerCheck,wrongAnswer,nextQuestion} from '../utils/QuestionArrange'
 import TriviaContext from '../Context/TriviaContext'
 
@@ -11,7 +12,7 @@ function Tabs({ans}) {
 
   const {correctAnswer,setCorrectAnswer,activeQuestion,setTriviaCollection,triviaCollection,setActiveQuestion,setScreen,answers,setUsedQuestion,count,setCount,setAnswers,setTabDisplayBoxVisibility} = useContext(TriviaContext)
   const [blink,setBlink] = useState(false)
-
+  const navigate = useNavigate()
     return (
    
         <button className={
@@ -24,7 +25,7 @@ function Tabs({ans}) {
         onClick={(evt)=>{
           
           answerCheck(evt.target.value,correctAnswer,triviaCollection,setScreen,setAnswers,count,setCount,setBlink,setCorrectAnswer,setTabDisplayBoxVisibility)
-
+          
 
         }}
         
