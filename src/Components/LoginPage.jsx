@@ -13,7 +13,10 @@ function LoginPage() {
     const [mypassword,setPassword] = useState("");
     const [error,setError] = useState("");
 
+
     const navigate = useNavigate()
+
+
     const loginUser = async(evt)=>{
         evt.preventDefault()
 
@@ -39,11 +42,11 @@ function LoginPage() {
 
                 const user = jwtDecode(token)
 
-                setLogin(user)
+                setLogin({status:true,user})
 
                 console.log(user)
                 setError("")
-                navigate("/")
+                navigate("/start")
             } 
                 else {
                     setError("Incorrect Email/Password")

@@ -11,7 +11,7 @@ const getAnswers = (arr)=>{
 }
 
 const nextQuestion = (arr,screen,answers,count,setCount,setCorrectAns,setTabVisibile)=>{
-    if(count!==9){
+    if(count!==arr.length){
        
 
         screen(arr[count].question)
@@ -35,7 +35,7 @@ const updateCount = (count,setCount)=>{
     let newCount = count;
 
     
-     newCount++
+    newCount = newCount+ 1
      setCount(newCount)
     //console.log(newCount)
 }
@@ -70,25 +70,26 @@ const assignQuestions = (trivia,setQuestion,screen,setQuestions,setCorrectAns,ac
 
   
 
-const answerCheck=  (ans,correct_ans,arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile)=>{
+const answerCheck=  async (ans,correct_ans,arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile,score,setScore)=>{
 
     if(correct_ans === ans){
        
-       nextQuestion(arr,screen,answers,count,setCount,setCorrectAns,setTabVisibile)
+       await nextQuestion(arr,screen,answers,count,setCount,setCorrectAns,setTabVisibile)
+       setScore(score + 1)
    
         return true;
     } else {
         
-        wrongAnswer(arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile)
+       await wrongAnswer(arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile)
         return false;
     }
 
 }
 
-const wrongAnswer =(arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile)=>{
+const wrongAnswer =  (arr,screen,answers,count,setCount,setBlink,setCorrectAns,setTabVisibile)=>{
     let counter = 0
     setBlink(true)
-  let timer =  setInterval(()=>{
+  let timer =  setInterval(async ()=>{
 
          
           
@@ -104,7 +105,7 @@ const wrongAnswer =(arr,screen,answers,count,setCount,setBlink,setCorrectAns,set
 
           if(counter===1){
             clearInterval(timer)
-            nextQuestion(arr,screen,answers,count,setCount,setCorrectAns,setTabVisibile)
+            await nextQuestion(arr,screen,answers,count,setCount,setCorrectAns,setTabVisibile)
             setBlink(false)
           }
           

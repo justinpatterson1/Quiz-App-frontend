@@ -10,8 +10,10 @@ import { assignQuestions,getAnswers ,updateCount} from './utils/QuestionArrange'
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  BrowserRouter,
   Route,
   RouterProvider,
+  Routes
 } from "react-router-dom";
 import StartPage from './Components/StartPage';
 
@@ -36,7 +38,8 @@ const [answers,setAnswers] = useState([]);
 const [correctAnswer,setCorrectAnswer] = useState();
 const [count,setCount] = useState(0)
 const [tabDisplayBoxVisibility,setTabDisplayBoxVisibility] = useState({value:true});
-const [login,setLogin] = useState({})
+const [login,setLogin] = useState({status:false, user:{}})
+const [score,setScore] = useState(0)
 const [gameSettings,setGameSettings] = useState({
                                                   difficulty:"",
                                                   question:"",
@@ -46,12 +49,16 @@ const [gameSettings,setGameSettings] = useState({
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AppLayout/>}>
-         <Route indexed path="login" element={<LoginPage/>}/>
-         <Route  path="/" element={<DisplayArea/>}/>
-         <Route path="start" element={<StartPage/>}/>
+    <>
+      <Route element={<AppLayout/>}>
+          <Route  path="/" element={<DisplayArea/>}/>
+         
+          
+          <Route path="start" element={<StartPage/>}/>
 
-    </Route>
+      </Route>
+      <Route indexed path="login" element={<LoginPage/>}/>
+    </>
   )
 )
 
@@ -154,7 +161,7 @@ const router = createBrowserRouter(
    
 
   return (
-    <TriviaContext.Provider value={{triviaCollection,setTriviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setAnswers,correctAnswer,setCorrectAnswer,count,setCount,tabDisplayBoxVisibility,setTabDisplayBoxVisibility,login,setLogin,gameSettings,setGameSettings}}>
+    <TriviaContext.Provider value={{triviaCollection,setTriviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setAnswers,correctAnswer,setCorrectAnswer,count,setCount,tabDisplayBoxVisibility,setTabDisplayBoxVisibility,login,setLogin,gameSettings,setGameSettings,score,setScore}}>
     <div  style={BG}>
       <RouterProvider router={router}/>
 

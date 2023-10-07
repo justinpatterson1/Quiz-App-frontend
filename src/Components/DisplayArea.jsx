@@ -3,13 +3,15 @@ import Screen from './Screen'
 import TriviaContext from '../Context/TriviaContext';
 import {rearrangeQuestions} from'../utils/QuestionArrange'
 import Tabs from './Tabs';
+import { useNavigate } from 'react-router-dom';
 
 
 function DisplayArea() {
-  const {setTriviaCollection,triviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setQuestions,tabDisplayBoxVisibility,setTabDisplayBoxVisibility} = useContext(TriviaContext) 
+  const {setTriviaCollection,triviaCollection,activeQuestion,setActiveQuestion,usedQuestions,setUsedQuestions,screen,setScreen,answers,setQuestions,tabDisplayBoxVisibility,setTabDisplayBoxVisibility,score,setScore,gameSettings} = useContext(TriviaContext) 
   let num = Math.floor(Math.random() * 4)
   const questionArr = []
 
+  const navigate = useNavigate()
    useEffect(()=>{
  
    
@@ -37,8 +39,11 @@ function DisplayArea() {
 
 
   return (
-    <div className='h-full'>
-        <div className='h-full'>
+    <div className='h-full w-full '>
+          
+        <div className='h-full w-full absolute '>
+
+        <p className='text-center text-white  relative h-10 top-10'>{score}</p>
         <Screen/>
         <div  className={
             tabDisplayBoxVisibility.value === true? 
@@ -50,6 +55,36 @@ function DisplayArea() {
            answers.map((q,i)=>(<Tabs key={i} id={i} ans={q} />))
          }
          </div>
+         <div className={
+            tabDisplayBoxVisibility.value === true?
+            ' hidden' 
+              : 
+              'text-center h-auto '  
+              }>
+
+              <div className='h-auto'>
+                        <div className='mb-5'>
+                        <span className='text-white text-4xl'>{score}</span> <span className='text-red-300 text-xl'>/ {gameSettings.question}</span>
+                        </div>
+                   
+                   <div className="flex justify-center space-x-4">
+                        <button className='w-1/3 h-10 text-center bg-green-400' onClick={(evt)=>{
+                          evt.preventDefault()
+                          setTabDisplayBoxVisibility({value:true})
+                          setTriviaCollection([]);
+                          setScore(0)
+                          navigate("/start")
+                        }}>Play Again ?</button>
+                        <button className='w-1/3 h-10 text-center bg-red-400' onClick={(evt)=>{
+                          evt.preventDefault()
+                          navigate("/")
+                        }}>Logout</button>
+                  </div>
+              </div>
+                  
+                  
+         </div>
+       
         </div>
        
     </div>

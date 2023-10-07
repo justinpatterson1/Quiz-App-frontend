@@ -10,7 +10,7 @@ function Tabs({ans}) {
 
   
 
-  const {correctAnswer,setCorrectAnswer,activeQuestion,setTriviaCollection,triviaCollection,setActiveQuestion,setScreen,answers,setUsedQuestion,count,setCount,setAnswers,setTabDisplayBoxVisibility} = useContext(TriviaContext)
+  const {correctAnswer,setCorrectAnswer,activeQuestion,setTriviaCollection,triviaCollection,setActiveQuestion,setScreen,answers,setUsedQuestion,count,setCount,setAnswers,setTabDisplayBoxVisibility,score,setScore} = useContext(TriviaContext)
   const [blink,setBlink] = useState(false)
   const navigate = useNavigate()
     return (
@@ -24,8 +24,8 @@ function Tabs({ans}) {
         value={ans}
         onClick={(evt)=>{
           
-          answerCheck(evt.target.value,correctAnswer,triviaCollection,setScreen,setAnswers,count,setCount,setBlink,setCorrectAnswer,setTabDisplayBoxVisibility)
-          
+          answerCheck(evt.target.value,correctAnswer,triviaCollection,setScreen,setAnswers,count,setCount,setBlink,setCorrectAnswer,setTabDisplayBoxVisibility,score,setScore)
+          console.log(score)
 
         }}
         

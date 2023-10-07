@@ -1,10 +1,31 @@
 import React, { useContext } from 'react'
 import TriviaContext from '../Context/TriviaContext'
 import { useNavigate } from 'react-router-dom'
+import { assignQuestions,getAnswers ,updateCount} from '../utils/QuestionArrange';
 
 function StartPage() {
     const navigate = useNavigate()
-    const {gameSettings,setGameSettings} =useContext(TriviaContext)
+
+    
+    const setQuestions = () =>{
+        fetch(`https://opentdb.com/api.php?amount=${gameSettings.question}&category=${gameSettings.catergory}&difficulty=${gameSettings.difficulty}&type=multiple`)
+          .then(res=>res.json())
+          .then(json=>{
+      
+            //console.log(json.results)
+            setTriviaCollection(json.results);
+            setScreen(json.results[0].question);
+            setAnswers(getAnswers(json.results[0]));
+            setCorrectAnswer(json.results[0].correct_answer);
+            updateCount(count,setCount)
+          })
+          .catch((err)=>{
+            console.log(err.message)
+          })    
+    }
+
+
+    const {gameSettings,setGameSettings,setTriviaCollection,setScreen,setAnswers,setCorrectAnswer,updateCount,count,setCount} =useContext(TriviaContext)
   return (
     <div className='h-screen grid grid-cols-1 items-center'>
         <h1 className='text-center text-2xl text-white text'>Select Game</h1>
@@ -50,8 +71,11 @@ function StartPage() {
                         :
                              'w-1/2 h-10 text-center bg-green-400'
                             }
-                        onClick={()=>{
-                            navigate("/")
+                        onClick={(evt)=>{
+                            evt.preventDefault()
+                            console.log(gameSettings)
+                            setQuestions()
+                            navigate("/game")
                         }}>Start</button>
                 </form>
         </div>
